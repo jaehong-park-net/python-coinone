@@ -1,6 +1,7 @@
 import json
 
 from requests import HTTPError
+from requests.exceptions import ConnectionError
 
 from pycoinone.response import ResponseFactory
 
@@ -19,7 +20,9 @@ def coinone_api_request(func):
         try:
             res = func(self, *args, **kwargs)
         except HTTPError:
-            raise ResponseError()
+            raise ResponseError("Python request http error occured.")
+        except ConnectionError:
+            raise ResponseError("Python requests connection error occured.")
 
         status_code = res.status_code
         if status_code != 200:
