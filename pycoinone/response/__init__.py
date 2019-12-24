@@ -3,6 +3,7 @@ from functools import cmp_to_key
 ERROR_MESSAGE = {
     1: "Blocked user access.",
     8: "Request Token Parameter is needed."
+    # TODO
 }
 
 CURRENCIES = (
@@ -186,6 +187,22 @@ class Trade(Raw):
 
 @coinone_api_response
 class TradeResponse(Response):
+    """
+    {
+        "result": "success",
+        "errorCode": "0",
+        "timestamp": "1416895635",
+        "currency": "btc",
+        "completeOrders": [
+            {
+                "timestamp": "1416893212",
+                "price": "420000.0",
+                "qty": "0.1",
+                "is_ask": "1"
+            }
+        ]
+    }
+    """
     __attributes__ = [
         "result",
         "errorCode",
@@ -218,6 +235,15 @@ class TradeResponse(Response):
 
 
 class Ask(Raw):
+    """
+    Raw structure
+
+    {
+        "price": <float:price>,
+        "qty": <float:quantity>
+    }
+    """
+
     @property
     def price(self):
         return float(self._raw.get("price"))
@@ -228,6 +254,15 @@ class Ask(Raw):
 
 
 class Bid(Raw):
+    """
+    Raw structure
+    
+    {
+        "price": <float:price>,
+        "qty": <float:quantity>
+    }
+    """
+
     @property
     def price(self):
         return float(self._raw.get("price"))
@@ -239,6 +274,34 @@ class Bid(Raw):
 
 @coinone_api_response
 class OrderResponse(Response):
+    """
+    {
+        "errorCode": "0",
+        "timestamp": "1416895635",
+        "currency": "btc",
+        "bid": [
+            {
+                "price": "414000.0",
+                "qty": "11.4946"
+            },
+            {
+                "price": "414000.0",
+                "qty": "11.4946"
+            }
+        ],
+        "ask": [
+            {
+                "price": "414000.0",
+                "qty": "11.4946"
+            },
+            {
+                "price": "414000.0",
+                "qty": "11.4946"
+            }
+        ],
+        "result": "success"
+    }
+    """
     __attributes__ = [
         "result",
         "errorCode",
@@ -371,6 +434,50 @@ class Order(Raw):
 
 @coinone_api_response
 class UserInfoResponse(Response):
+    """
+    {
+        "result": "success",
+        "errorCode": "0",
+        "userInfo": {
+            "virtualAccountInfo": {
+                "depositor": "John",
+                "accountNumber": "0123456789",
+                "bankName": "bankName"
+            },
+            "mobileInfo": {
+                "userName": "John",
+                "phoneNumber": "0123456789",
+                "phoneCorp": "1",
+                "isAuthenticated": "true"
+            },
+            "bankInfo": {
+                "depositor": "John",
+                "bankCode": "20",
+                "accountNumber": "0123456789",
+                "isAuthenticated": "true"
+            },
+            "emailInfo": {
+                "isAuthenticated": "true",
+                "email": "john@coinone.com"
+            },
+            "securityLevel": "4",
+            "feeRate": {
+                "btc": {
+                    "maker": "0.001",
+                    "taker": "0.001"
+                },
+                "bch": {
+                    "maker": "0.001",
+                    "taker": "0.001"
+                },
+                "eth": {
+                    "maker": "0.001",
+                    "taker": "0.001"
+                }
+            }
+        }
+    }
+    """
     __attributes__ = [
         "errorCode",
         "result",
@@ -392,6 +499,14 @@ class UserInfoResponse(Response):
 
 
 class Balance(Raw):
+    """
+    Raw structure
+    
+    {
+            "avail": <float:available>,
+            "balance": <float:balance>
+    }
+    """
     def __init__(self, raw):
         super(Balance, self).__init__(raw)
 
@@ -406,6 +521,29 @@ class Balance(Raw):
 
 @coinone_api_response
 class BalanceResponse(Response):
+    """ 
+    {
+        "result": "success",
+        "errorCode": "0",
+        "normalWallets": [
+            {
+                "balance": "6.1151",
+                "label": "First Wallet"
+            },
+            {
+                "balance": "6.9448",
+                "label": "Second Wallet"
+            }
+        ],
+        "btc": {
+            "avail": "344.33703699",
+            "balance": "344.33703699"
+        },
+        ...
+        ...
+        ...
+    }
+    """
     __attributes__ = [
         "result",
         "errorCode",

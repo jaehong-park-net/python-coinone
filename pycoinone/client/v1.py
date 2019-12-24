@@ -38,6 +38,10 @@ class ClientV1(CoinoneClient):
 
     @coinone_api_request
     def get_trades(self):
+        """
+        Get trades.
+        :return: TradeResponse
+        """
         res = self._session._session.get(
             ClientV1.TRADE_URL
         )
@@ -46,6 +50,10 @@ class ClientV1(CoinoneClient):
 
     @coinone_api_request
     def get_orders(self):
+        """
+        Get orders.
+        :return: OrderResponse
+        """
         res = self._session._session.get(
             ClientV1.ORDER_URL
         )
@@ -55,6 +63,10 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def get_user_info(self):
+        """
+        Get user information.
+        :return: UserInfoResponse
+        """
         res = self._session.get(
             ClientV1.USER_INFO_URL
         )
@@ -64,6 +76,10 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def get_balance(self):
+        """
+        Get balance
+        :return: BalanceResponse
+        """
         res = self._session.get(
             ClientV1.BALANCE_URL
         )
@@ -73,6 +89,10 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def get_pending_orders(self):
+        """
+        Get pending orders.
+        :return: PendingOrderResponse
+        """
         res = self._session.get(
             ClientV1.PENDING_ORDER_URL,
         )
@@ -82,6 +102,10 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def get_complete_orders(self):
+        """
+        Get complete orders.
+        :return: CompleteOrderResponse
+        """
         res = self._session.get(
             ClientV1.COMPLETE_ORDER_URL,
         )
@@ -92,8 +116,8 @@ class ClientV1(CoinoneClient):
     @required_authorization
     def cancel_order(self, order):
         """
-
-        :param order: PendingOrdersResponse
+        Cancel order.
+        :param order: PendingOrder
         :return: Response
         """
         res = self._session.post(
@@ -111,6 +135,12 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def buy(self, price, quantity):
+        """
+        Buy.
+        :param price: float
+        :param quantity: float
+        :return: LimitOrderResponse
+        """
         res = self._session.post(
             ClientV1.BUY_URL,
             {
@@ -124,6 +154,12 @@ class ClientV1(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def sell(self, price, quantity):
+        """
+        Sell.
+        :param price: float
+        :param quantity: float
+        :return: LimitOrderResponse
+        """
         res = self._session.post(
             ClientV1.SELL_URL,
             {

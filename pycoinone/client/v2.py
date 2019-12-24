@@ -40,6 +40,10 @@ class ClientV2(CoinoneClient):
 
     @coinone_api_request
     def get_trades(self):
+        """
+        Get trades.
+        :return: TradeResponse
+        """
         res = self._session.get(
             ClientV2.TRADE_URL
         )
@@ -48,6 +52,10 @@ class ClientV2(CoinoneClient):
 
     @coinone_api_request
     def get_orders(self):
+        """
+        Get orders.
+        :return: OrderResponse
+        """
         res = self._session.get(
             ClientV2.ORDER_URL
         )
@@ -56,7 +64,91 @@ class ClientV2(CoinoneClient):
 
     @coinone_api_request
     @required_authorization
+    def get_user_info(self):
+        """
+        Get user information.
+        :return: UserInfoResponse
+        """
+        res = self._session.post(
+            ClientV2.USER_INFO_URL
+        )
+
+        return res
+
+    @coinone_api_request
+    @required_authorization
+    def get_balance(self):
+        """
+        Get balance
+        :return: BalanceResponse
+        """
+        res = self._session.post(
+            ClientV2.BALANCE_URL
+        )
+
+        return res
+
+    @coinone_api_request
+    @required_authorization
+    def get_pending_orders(self, currency="btc"):
+        """
+        Get pending orders.
+        :param currency: str
+        :return: PendingOrderResponse
+        """
+        res = self._session.post(
+            ClientV2.PENDING_ORDER_URL,
+            {"currency": currency}
+        )
+
+        return res
+
+    @coinone_api_request
+    @required_authorization
+    def get_complete_orders(self, currency="btc"):
+        """
+        Get complete orders.
+        :param currency: str
+        :return: CompleteOrderResponse
+        """
+        res = self._session.post(
+            ClientV2.COMPLETE_ORDER_URL,
+            {"currency": currency}
+        )
+
+        return res
+
+    @coinone_api_request
+    @required_authorization
+    def cancel_order(self, order, currency="btc"):
+        """
+        Cancel order.
+        :param order: PendingOrders
+        :param currency: str
+        :return: Response
+        """
+        res = self._session.post(
+            ClientV2.CANCEL_ORDER_URL,
+            {
+                "order_id": order.order_id,
+                "price": order.price,
+                "qty": order.quantity,
+                "is_ask": 1 if order.type == "ask" else 0,
+                "currency": currency
+            }
+        )
+
+        return res
+
+    @coinone_api_request
+    @required_authorization
     def buy(self, price, quantity, currency="btc"):
+        """
+        Buy.
+        :param price: float
+        :param quantity: float
+        :return: LimitOrderResponse
+        """
         res = self._session.post(
             ClientV2.BUY_URL,
             {
@@ -71,71 +163,17 @@ class ClientV2(CoinoneClient):
     @coinone_api_request
     @required_authorization
     def sell(self, price, quantity, currency="btc"):
+        """
+        Sell.
+        :param price: float
+        :param quantity: float
+        :return: LimitOrderResponse
+        """
         res = self._session.post(
             ClientV2.SELL_URL,
             {
                 "price": price,
                 "qty": quantity,
-                "currency": currency
-            }
-        )
-
-        return res
-
-    @coinone_api_request
-    @required_authorization
-    def get_user_info(self):
-        res = self._session.post(
-            ClientV2.USER_INFO_URL
-        )
-
-        return res
-
-    @coinone_api_request
-    @required_authorization
-    def get_balance(self):
-        res = self._session.post(
-            ClientV2.BALANCE_URL
-        )
-
-        return res
-
-    @coinone_api_request
-    @required_authorization
-    def get_pending_orders(self, currency="btc"):
-        res = self._session.post(
-            ClientV2.PENDING_ORDER_URL,
-            {"currency": currency}
-        )
-
-        return res
-
-    @coinone_api_request
-    @required_authorization
-    def get_complete_orders(self, currency="btc"):
-        res = self._session.post(
-            ClientV2.COMPLETE_ORDER_URL,
-            {"currency": currency}
-        )
-
-        return res
-
-    @coinone_api_request
-    @required_authorization
-    def cancel_order(self, order, currency="btc"):
-        """
-        
-        :param order: PendingOrdersResponse
-        :param currency: str
-        :return: Response
-        """
-        res = self._session.post(
-            ClientV2.CANCEL_ORDER_URL,
-            {
-                "order_id": order.order_id,
-                "price": order.price,
-                "qty": order.quantity,
-                "is_ask": 1 if order.type == "ask" else 0,
                 "currency": currency
             }
         )
