@@ -29,8 +29,7 @@ class SessionV2(CoinoneSession):
         encoded_data["nonce"] = int(time.time() * 1000)
 
         data = data or {}
-        for k, v in data.items():
-            encoded_data[k] = v
+        encoded_data.update(data)
 
         encoded_data = json.dumps(encoded_data).encode()
         encoded_data = base64.b64encode(encoded_data)

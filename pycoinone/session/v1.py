@@ -23,7 +23,6 @@ class SessionV1(CoinoneSession):
         encoded_data["access_token"] = self._access_token
 
         data = data or {}
-        for k, v in data.items():
-            encoded_data[k] = v
+        encoded_data.update(data)
 
         return encoded_data
